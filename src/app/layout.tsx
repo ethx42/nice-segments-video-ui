@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import GlobalStyles from "../../styles/globals";
+import { VideoProgressProvider } from '../hooks/useVideoProgress';
 
 export const metadata: Metadata = {
   title: "Segment-Based Video Interface",
@@ -14,10 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head />
       <body>
-        <GlobalStyles />
-        {children}
+        <VideoProgressProvider>
+          <GlobalStyles />
+          {children}
+        </VideoProgressProvider>
       </body>
     </html>
   );
