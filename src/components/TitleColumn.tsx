@@ -75,10 +75,7 @@ export const TitleColumn: React.FC = () => {
                 isActive={isActive}
                 isPast={isPast}
                 isLast={index === videoChapters.length - 1}
-                onClick={() => {
-                  console.log(`Setting current time to: ${segment.start}`);
-                  setCurrentTime(segment.start);
-                }}
+                onClick={() => setCurrentTime(segment.start)}
               >
                 {segment.title}
               </SegmentTitle>

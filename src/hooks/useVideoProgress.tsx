@@ -69,23 +69,34 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({ ch
     description: string,
     videoDuration: number
   ): Chapter[] => {
-    const pattern = /(\d{1,2}:\d{2})\s+(.+)/g;
+    // Regex to handle timestamps with or without hours
+    const pattern = /(\d{1,2}:\d{2}(?::\d{2})?)\s*-\s*(.+)/g;
     const chapters: Chapter[] = [];
     let match;
+  
     while ((match = pattern.exec(description)) !== null) {
       const [, timestamp, title] = match;
-      const [minutes, seconds] = timestamp.split(":").map(Number);
-      const start = minutes * 60 + seconds;
-      const cleanedTitle = title.replace(/^[\W_]+|[\W_]+$/g, "");
+  
+      const timeParts = timestamp.split(":").map(Number).reverse();
+      const seconds = (timeParts[0] || 0) + (timeParts[1] || 0) * 60 + (timeParts[2] || 0) * 3600;
+  
+      const cleanedTitle = title.trim().replace(/^[\W_]+|[\W_]+$/g, "");
+  
       if (chapters.length > 0) {
-        chapters[chapters.length - 1].end = start;
+        chapters[chapters.length - 1].end = seconds;
       }
-      chapters.push({ start, end: videoDuration, title: cleanedTitle });
+  
+      chapters.push({
+        start: seconds,
+        end: videoDuration,
+        title: cleanedTitle,
+      });
     }
-   
+  
     if (chapters.length > 0) {
       chapters[chapters.length - 1].end = videoDuration;
     }
+  
     return chapters;
   };
 
