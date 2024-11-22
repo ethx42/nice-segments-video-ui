@@ -21,8 +21,8 @@ const SegmentTitle = styled.div<TitleProps>`
   font-size: 1.5rem;
   z-index: 1;
   width: 100%;
-  border-top: 1px dashed gray;
-  border-bottom: ${({ isLast }) => (isLast ? "1px dashed gray" : "none")};
+  border-top: 1px dashed rgba(160, 21, 62, 0.5);
+  border-bottom: ${({ isLast }) => (isLast ? "1px solid rgba(160, 21, 62, 0.5)" : "none")};
   padding: 10px 18px;
   white-space: nowrap;
   overflow: hidden;

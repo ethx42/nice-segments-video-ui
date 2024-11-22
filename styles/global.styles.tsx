@@ -15,9 +15,9 @@ const GlobalStyles = () => (
 
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        background: radial-gradient(circle at top left, #1b2330, #111827, #0d1117);
-        color: #333;
+        background: radial-gradient(circle at 70% 110%, #082e4b, #062741, #042137, #031a2e, #021425, #010e1c, #010813, #00040b, #000205, #000101, #000000, #000000); /* made at https://learnui.design/tools/gradient-generator.html */
         padding: 0 2rem;
+        height: 100vh;
       }
     `}
   />

@@ -33,9 +33,32 @@ const TitlesContainer = styled.div`
   overflow-y: hidden;
   width: 22%;
   border-radius: 0 10px 10px 0;
-  border-top: 1px solid #da4167;
-  border-right: 1px solid #da4167;
-  border-bottom: 1px solid #da4167;
+  background: rgba(18, 21, 53, 0.5);
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+
+  /* Fallback for unsupported browsers */
+  @supports not (backdrop-filter: blur(1px)) {
+    border: 1px solid rgba(18, 21, 53, 0.25);
+  }
+
+  /* Pseudo-element for blurred borders */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; /* Matches the container size */
+    border-radius: 0 10px 10px 0;
+    border-top: 1px solid rgba(53, 114, 239, 0.5);
+    border-right: 1px solid rgba(53, 114, 239, 0.5);
+    border-bottom: 1px solid rgba(53, 114, 239, 0.5);
+    box-shadow: 0 0 10px rgba(53, 114, 239, 0.5); /* Blurred effect */
+    z-index: -1; /* Places the blur behind the content */
+    pointer-events: none; /* Ensures it doesn't interfere with interactions */
+  }
+
   &::after {
     content: "";
     position: absolute;
