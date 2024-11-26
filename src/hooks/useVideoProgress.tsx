@@ -109,6 +109,7 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({
   // fetchVideoChapters function fetches video chapters from the YouTube API based on the video ID.
   const fetchVideoChapters = useCallback(
     async (videoId: string) => {
+      console.log("API Key:", process.env.NEXT_PUBLIC_YOUTUBE_API_KEY);
       if (videoId === currentVideoId) {
         return;
       }
@@ -122,7 +123,6 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({
         });
 
         const data = response.data;
-        console.log("Data:", data);
         const snippet = data.items[0].snippet;
         const description = snippet.description;
         const title = snippet.title;
