@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: PROD
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,7 +23,11 @@ jobs:
         run: npm install
 
       - name: Build Next.js app
-        run: npm run build
+        env:
+          NEXT_PUBLIC_YOUTUBE_API_KEY: ${{ secrets.NEXT_PUBLIC_YOUTUBE_API_KEY }}
+        run: |
+          echo "NEXT_PUBLIC_YOUTUBE_API_KEY=${NEXT_PUBLIC_YOUTUBE_API_KEY}" >> .env.local
+          npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
