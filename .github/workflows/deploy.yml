@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Debug Environment Variable
-        run: echo "NEXT_PUBLIC_YOUTUBE_API_KEY is ${{ secrets.NEXT_PUBLIC_YOUTUBE_API_KEY }}"
+        run: printenv | grep NEXT_PUBLIC_YOUTUBE_API_KEY
 
       - name: Build Next.js app
         env:
