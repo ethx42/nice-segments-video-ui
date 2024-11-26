@@ -1,4 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Segment-Based Video Interface
+
+This is a segment-based video interface built with Next.js, React, and TypeScript. It allows users to interact with video content by navigating through chapters and viewing segment titles.
+
+## Tech Stack
+
+- **Next.js**: A React framework for server-side rendering and static site generation.
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
+- **Emotion**: A library for writing CSS styles with JavaScript.
+
+## Features
+
+- **Video Playback with Chapters**: Users can view and navigate through video chapters.
+- **Dynamic Video Title and Author Display**: Displays the current video title and author.
+- **Responsive Design**: Ensures a seamless experience across different devices.
+- **Data Fetching**: Uses TanStack React Query for handling data fetching and caching.
+
+## Getting Started
+
+First, run the development server:
+
 
 ## Getting Started
 
