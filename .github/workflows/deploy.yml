@@ -9,27 +9,43 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Step 4: Debug Environment Variable
+      # Ensure the secret is correctly passed to the environment
       - name: Debug Environment Variable
-        run: printenv | grep NEXT_PUBLIC_YOUTUBE_API_KEY
+        env:
+          NEXT_PUBLIC_YOUTUBE_API_KEY: ${{ secrets.NEXT_PUBLIC_YOUTUBE_API_KEY }}
+        run: |
+          if [ -z "$NEXT_PUBLIC_YOUTUBE_API_KEY" ]; then
+            echo "Environment variable NEXT_PUBLIC_YOUTUBE_API_KEY is not set"
+            exit 1
+          else
+            echo "Environment variable NEXT_PUBLIC_YOUTUBE_API_KEY is set"
+          fi
 
+      # Step 5: Build the Next.js app
+      # Create the .env.local file for Next.js to use during the build
       - name: Build Next.js app
         env:
           NEXT_PUBLIC_YOUTUBE_API_KEY: ${{ secrets.NEXT_PUBLIC_YOUTUBE_API_KEY }}
         run: |
-          echo "NEXT_PUBLIC_YOUTUBE_API_KEY=${NEXT_PUBLIC_YOUTUBE_API_KEY}" >> .env.local
+          echo "NEXT_PUBLIC_YOUTUBE_API_KEY=${NEXT_PUBLIC_YOUTUBE_API_KEY}" > .env.local
           npm run build
 
+      # Step 6: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
