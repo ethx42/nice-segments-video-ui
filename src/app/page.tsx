@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { TitleColumn } from "@/components/TitleColumn";
 import { useVideoProgress } from "@/hooks/useVideoProgress";
@@ -50,14 +50,14 @@ const TitlesContainer = styled.div`
     top: 0;
     right: 0;
     bottom: 0;
-    left: 0; /* Matches the container size */
+    left: 0;
     border-radius: 0 10px 10px 0;
     border-top: 1px solid rgba(233, 255, 151, 0.2);
     border-right: 1px solid rgba(233, 255, 151, 0.2);
     border-bottom: 1px solid rgba(233, 255, 151, 0.2);
-    box-shadow: 0 0 10px rgba(53, 114, 239, 1); /* Blurred effect */
-    z-index: -1; /* Places the blur behind the content */
-    pointer-events: none; /* Ensures it doesn't interfere with interactions */
+    box-shadow: 0 0 10px rgba(53, 114, 239, 1);
+    z-index: -1;
+    pointer-events: none;
   }
 
   &::after {
@@ -85,23 +85,30 @@ const TitlePlaceholder = styled.div`
 
 export default function Home() {
   const { videoChapters } = useVideoProgress();
-  const searchParams = useSearchParams();
-  const videoId = searchParams.get("videoId") || "q5T_z5POoFg";
 
   return (
     <>
       <VideoTitle />
       <Wrapper>
         <VideoContainer>
-        <VideoPlayer videoId={videoId} />
-      </VideoContainer>
-      {videoChapters.length > 0 && (
-        <TitlesContainer>
-          <TitlePlaceholder />
-          <TitleColumn />
-        </TitlesContainer>
-      )}
+          <Suspense fallback={<div>Loading...</div>}>
+            <VideoPlayerWithParams />
+          </Suspense>
+        </VideoContainer>
+        {videoChapters.length > 0 && (
+          <TitlesContainer>
+            <TitlePlaceholder />
+            <TitleColumn />
+          </TitlesContainer>
+        )}
       </Wrapper>
     </>
   );
 }
+
+const VideoPlayerWithParams: React.FC = () => {
+  const searchParams = useSearchParams();
+  const videoId = searchParams.get("videoId") || "q5T_z5POoFg";
+
+  return <VideoPlayer videoId={videoId} />;
+};
