@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: PROD
+    environment: github-pages
 
     steps:
       - name: Checkout code
