@@ -10,6 +10,12 @@ const Title = styled.h1`
   z-index: 1;
   text-align: center;
   max-width: 70%;
+  word-wrap: break-word;
+
+  @media (max-width: 600px) {
+    font-size: 1rem;
+    padding: 2rem 0.5rem 0.2rem;
+  }
 `;
 
 const Author = styled.h2`
@@ -17,6 +23,10 @@ const Author = styled.h2`
   color: #ccc;
   margin-top: 0.2rem;
   padding-bottom: 1.5rem;
+
+  @media (max-width: 600px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const Container = styled.div`

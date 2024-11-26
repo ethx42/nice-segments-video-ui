@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/nice-segments-video-ui',
+  // eslint-disable-next-line no-undef
+  basePath: process.env.NODE_ENV === 'production' ? '/nice-segments-video-ui' : '',
   images: {
     unoptimized: true,
   }
