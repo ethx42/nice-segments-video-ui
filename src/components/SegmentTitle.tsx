@@ -10,7 +10,7 @@ interface TitleProps {
 
 const SegmentTitle = styled.div<TitleProps>`
   color: ${({ isActive, isPast }) =>
-    isActive ? "#f8f9fa" : isPast ? "#66666e" : "#9999a1"};
+    isActive ? "#97FEED" : isPast ? "#0B666A" : "#35A29F"};
   transition: color 0.3s ease;
   display: flex;
   align-items: center;
@@ -28,6 +28,7 @@ const SegmentTitle = styled.div<TitleProps>`
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  box-shadow: 0 0 5px rgba(160, 21, 62, 0.5), 0 0 10px rgba(160, 21, 62, 0.3);
 `;
 
 export default SegmentTitle;

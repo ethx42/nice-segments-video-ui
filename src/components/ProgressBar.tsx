@@ -18,7 +18,19 @@ const ProgressBar = styled.div<ProgressBarProps>`
     transparent 10px,
     transparent 20px
   );
-  z-index: 0;
+  z-index: 0;  
+  border-right: 1px solid rgba(255, 240, 120, 1);
+  box-shadow: 0 0 5px rgba(255, 240, 120, 0.5), 0 0 20px rgba(255, 65, 145, 0.5), inset 0 0 10px rgba(255, 240, 120, 0.3);
+  animation: glare 1.5s infinite alternate;
+
+  @keyframes glare {
+    0% {
+      box-shadow: 0 0 10px rgba(255, 240, 120, 0.5), 0 0 20px rgba(255, 65, 145, 0.5), inset 0 0 5px rgba(255, 240, 120, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 11px rgba(255, 240, 120, 1), 0 0 22px rgba(255, 65, 145, 1), inset 0 0 10px rgba(255, 240, 120, 0.5);
+    }
+  }
 `;
 
 export default ProgressBar; 

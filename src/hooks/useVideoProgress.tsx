@@ -16,32 +16,36 @@ interface VideoProgressContextType {
   setCurrentTime: (time: number) => void;
   videoChapters: Chapter[];
   fetchVideoChapters: (videoId: string) => void;
+  videoTitle: string;
+  channelTitle: string;
 }
 
-// Chapter interface represents a chapter in the video with a start time, end time, and title.
 interface Chapter {
   start: number;
   end: number;
   title: string;
 }
 
-// Create a context for video progress, initialized as undefined.
 const VideoProgressContext = createContext<
   VideoProgressContextType | undefined
 >(undefined);
 
-// YouTube API URL for fetching video details including snippet and content details.
-const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails';
+const YOUTUBE_API_URL =
+  "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails";
 
 interface VideoProgressProviderProps {
   children: React.ReactNode;
 }
 
 // VideoProgressProvider component manages the state of the video progress and provides context to its children.
-export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({ children }) => {
-  const [currentTime, setCurrentTime] = useState(0); // State to hold the current time of the video.
-  const [videoChapters, setVideoChapters] = useState<Chapter[]>([]); // State to hold the chapters of the video.
-  const [currentVideoId, setCurrentVideoId] = useState<string | null>(null); // State to hold the current video ID.
+export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({
+  children,
+}) => {
+  const [currentTime, setCurrentTime] = useState(0);
+  const [videoChapters, setVideoChapters] = useState<Chapter[]>([]);
+  const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
+  const [videoTitle, setVideoTitle] = useState<string>('');
+  const [channelTitle, setChannelTitle] = useState<string>('');
 
   // updateTime function updates the current time of the video element and the state.
   const updateTime = useCallback((time: number) => {
@@ -69,8 +73,7 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({ ch
     description: string,
     videoDuration: number
   ): Chapter[] => {
-    // Regex to handle timestamps with or without hours
-    const pattern = /(\d{1,2}:\d{2}(?::\d{2})?)\s*-\s*(.+)/g;
+    const pattern = /(?:^|\n)(\d{1,2}:\d{2}(?::\d{2})?)\s*[-–—:]*\s*(.+)/g;
     const chapters: Chapter[] = [];
     let match;
   
@@ -78,9 +81,12 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({ ch
       const [, timestamp, title] = match;
   
       const timeParts = timestamp.split(":").map(Number).reverse();
-      const seconds = (timeParts[0] || 0) + (timeParts[1] || 0) * 60 + (timeParts[2] || 0) * 3600;
+      const seconds =
+        (timeParts[0] || 0) +
+        (timeParts[1] || 0) * 60 +
+        (timeParts[2] || 0) * 3600;
   
-      const cleanedTitle = title.trim().replace(/^[\W_]+|[\W_]+$/g, "");
+      const cleanedTitle = title.trim();
   
       if (chapters.length > 0) {
         chapters[chapters.length - 1].end = seconds;
@@ -117,16 +123,24 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({ ch
 
         const data = response.data;
         console.log("Data:", data);
-        const description = data.items[0].snippet.description;
+        const snippet = data.items[0].snippet;
+        const description = snippet.description;
+        const title = snippet.title;
+        const channel = snippet.channelTitle;
+        setVideoTitle(title);
+        setChannelTitle(channel);
+
         const duration = data.items[0].contentDetails?.duration;
-        
         if (!duration) {
           console.error("Duration not found in contentDetails");
           return;
         }
 
         const videoDuration = parseDuration(duration);
-        const chapters = parseChaptersFromDescription(description, videoDuration);
+        const chapters = parseChaptersFromDescription(
+          description,
+          videoDuration
+        );
         setVideoChapters(chapters);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -163,6 +177,8 @@ export const VideoProgressProvider: React.FC<VideoProgressProviderProps> = ({ ch
         setCurrentTime: updateTime,
         videoChapters,
         fetchVideoChapters,
+        videoTitle,
+        channelTitle,
       }}
     >
       {children}

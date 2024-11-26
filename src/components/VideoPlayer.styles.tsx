@@ -7,6 +7,8 @@ export const VideoContainer = styled.div`
   overflow: hidden;
   max-width: 100%;
   width: 100%;
+  border-top-left-radius: 10px; /* Adjust the radius as needed */
+  border-bottom-left-radius: 10px; /* Adjust the radius as needed */
   iframe {
     position: absolute;
     top: 0;

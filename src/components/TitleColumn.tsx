@@ -4,9 +4,9 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   Column,
   TitleList,
-  TitleWrapper,
-  ProgressBar,
+  TitleWrapper
 } from "./TitleColumn.styles";
+import ProgressBar from "./ProgressBar";
 import SegmentTitle from "./SegmentTitle";
 import { useVideoProgress } from "../hooks/useVideoProgress";
 
